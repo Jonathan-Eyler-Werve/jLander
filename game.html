@@ -4,7 +4,7 @@
   
   <script type="application/javascript">
     var gameLoopCounter = 0;
-    var frameRate = 20
+    var frameRate = 30
     var cycleTime = (1000 / frameRate);
     var landerSize = 10;
     var reboundRate = 0.9 // defines bounce decay; 1 is perfect rebound 
@@ -34,6 +34,24 @@
         draw();
       },cycleTime);
     };
+
+    function draw(){
+      console.log("draw starts")
+
+      var canvas = document.getElementById("canvas");
+      if (canvas.getContext) {
+
+
+        var ctx = canvas.getContext("2d");
+        ctx.clearRect (0, 0, canvasEdgeY, canvasEdgeX)
+        ctx.fillStyle = "rgba(0, 200, 0, 1)";
+        ctx.strokeRect (posY, posX, landerSize, landerSize);
+
+      }
+      else {
+        window.alert("You're too good looking to use a browser this old.");
+      }  
+    }
 
     function staticFriction(frictionDetect){
       if (collisionCounter < 3){
@@ -89,20 +107,12 @@
       };
     };
 
-    function draw(){
-      console.log("draw starts")
+   function to_i(_value)
+    {
+     return _value | 0
+    };
 
-      // need to clear the canvas between draws! 
 
-      var canvas = document.getElementById("canvas");
-      if (canvas.getContext) {
-
-        var ctx = canvas.getContext("2d");
-        ctx.fillStyle = "rgba(0, 200, 0, .25)";
-        ctx.fillRect (posY, posX, landerSize, landerSize);
-
-      }
-    }
   </script>
 
     <style type="text/css">
