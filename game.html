@@ -4,7 +4,7 @@
   
   <script type="application/javascript">
     var gameLoopCounter = 0;
-    var frameRate = 30
+    var frameRate = 30;
     var cycleTime = (1000 / frameRate);
     var landerSize = 10;
     var reboundRate = 0.9 // defines bounce decay; 1 is perfect rebound 
@@ -45,7 +45,10 @@
         var ctx = canvas.getContext("2d");
         ctx.clearRect (0, 0, canvasEdgeY, canvasEdgeX)
         ctx.fillStyle = "rgba(0, 200, 0, 1)";
-        ctx.strokeRect (posY, posX, landerSize, landerSize);
+        drawPosY = to_i(posY);
+        drawPosX = to_i(posX);
+        console.log("drawing postions as " + drawPosX + " " + drawPosY)
+        ctx.strokeRect (drawPosY, drawPosX, landerSize, landerSize);
 
       }
       else {
