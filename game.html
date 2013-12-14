@@ -7,14 +7,14 @@
     var frameRate = 30;
     var cycleTime = (1000 / frameRate);
     var landerSize = 10;
-    var reboundRate = .95 // defines bounce decay; 1 is perfect rebound; .9 is "natural"
+    var reboundRate = .9 // defines bounce decay; 1 is perfect rebound; .9 is "natural"
     var changeY = 0; // starting vertical velocity
     var changeX = 5; // starting horizontal velocity
     var posX  = 0; // starting horizontal position 
     var posY = 0; // starting vertical position
     var accelY = 1; // vertical forces at work!  
     var accelX = 0; // horizontal forces at work! 
-    var drag = 0.999;
+    var drag = 0.9999;
     var canvasEdgeY = 784; 
     var canvasEdgeX = 1440;
     var collisionCounter = 0;
@@ -102,8 +102,8 @@
       };
 
       if (posX < 0) {                         // left edge
-        console.log("hit the left Y edge!");
-        posY = 0;
+        console.log("hit the left X edge!");
+        posX = 0;
         changeX = (changeX * reboundRate * -1);
         changeY = (changeY * reboundRate);
       };
