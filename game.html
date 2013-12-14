@@ -1,7 +1,8 @@
 <html>
   <head>
     <title>jLander</title>
-  
+    
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script>
   <script type="application/javascript">
     var gameLoopCounter = 0;
     var frameRate = 30;
@@ -15,15 +16,18 @@
     var accelY = 1; // vertical forces at work!  
     var accelX = 0; // horizontal forces at work! 
     var drag = 0.9999; // atmostphere!
+    var thrust = 5; // static thrust powers
     var canvasEdgeY = 784; 
     var canvasEdgeX = 1440;
     var collisionCounter = 0; //always init to zero 
+
 
     function loop(){
 
       setInterval(function(){
         console.log("loop starts. gameLoopCounter = " + gameLoopCounter);
         gameLoopCounter += 1; 
+        buttonCheck();
         changeX = (changeX + accelX) * drag;
         changeY = (changeY + accelY) * drag; 
         posX += changeX;
@@ -34,6 +38,8 @@
         draw();
       },cycleTime);
     };
+
+    function buttonCheck();
 
     function draw(){
       console.log("draw starts")
@@ -53,6 +59,26 @@
       else {
         window.alert("You're too good looking to use a browser this old.");
       }  
+    }
+
+    function thrustOn(direction) {
+      if (direction == "up"){
+        accelY = accelY + thrust
+      }
+      else {
+        console.log("ThrustOn lacks direction.")
+        engineError();
+      }    
+    } 
+
+    function thrustOff(direction){
+      if (direction == "up") {
+        accelY = accelY - thrust 
+      }
+      else {
+        console.log("ThrustOff lacks direction.")
+        engineError();
+      }    
     }
 
     function staticFriction(frictionDetect){
