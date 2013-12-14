@@ -7,16 +7,16 @@
     var frameRate = 30;
     var cycleTime = (1000 / frameRate);
     var landerSize = 10;
-    var reboundRate = 0.9 // defines bounce decay; 1 is perfect rebound 
-    var changeX = 0; // starting vertical velocity
-    var changeY = 5; // starting horizontal velocity
+    var reboundRate = .95 // defines bounce decay; 1 is perfect rebound; .9 is "natural"
+    var changeY = 0; // starting vertical velocity
+    var changeX = 5; // starting horizontal velocity
     var posX  = 0; // starting horizontal position 
     var posY = 0; // starting vertical position
-    var accelX = 1; // vertical forces at work!  
-    var accelY = 0; // horizontal forces at work! 
+    var accelY = 1; // vertical forces at work!  
+    var accelX = 0; // horizontal forces at work! 
     var drag = 0.999;
-    var canvasEdgeX = 500; 
-    var canvasEdgeY = 500;
+    var canvasEdgeY = 784; 
+    var canvasEdgeX = 1440;
     var collisionCounter = 0;
 
     function loop(){
@@ -41,14 +41,13 @@
       var canvas = document.getElementById("canvas");
       if (canvas.getContext) {
 
-
         var ctx = canvas.getContext("2d");
-        ctx.clearRect (0, 0, canvasEdgeY, canvasEdgeX)
-        ctx.fillStyle = "rgba(0, 200, 0, 1)";
+        ctx.clearRect (0, 0, canvasEdgeX, canvasEdgeY)
+        ctx.fillStyle = "rgba(0, 255, 0, 1)";
         drawPosY = to_i(posY);
         drawPosX = to_i(posX);
         console.log("drawing postions as " + drawPosX + " " + drawPosY)
-        ctx.strokeRect (drawPosY, drawPosX, landerSize, landerSize);
+        ctx.fillRect (drawPosX, drawPosY, landerSize, landerSize);
 
       }
       else {
@@ -60,15 +59,15 @@
       if (collisionCounter < 3){
       }
       else {  
-        changeX = 0;
-        console.log("Static X friction active")
-      };
-
-      if ( changeY > frictionDetect || changeY < (frictionDetect * -1) ){  
-      }
-      else {
         changeY = 0;
         console.log("Static Y friction active")
+      };
+
+      if ( changeX > frictionDetect || changeX < (frictionDetect * -1) ){  
+      }
+      else {
+        changeX = 0;
+        console.log("Static X friction active")
       };
     };
 
@@ -76,41 +75,41 @@
     function collisionCheck(){
       console.log("collisionCheck starts. collisionCounter = " + collisionCounter);
 
-      if (posX > (canvasEdgeX - landerSize)) { // lower edge
-        console.log("hit the bottom X edge!");
+      if (posY > (canvasEdgeY - landerSize)) { // lower edge
+        console.log("hit the bottom Y edge!");
         collisionCounter += 1;
 
-        posX = (canvasEdgeX - landerSize);
-        changeX = (changeX * reboundRate * -1)
-        changeY = (changeY * reboundRate) 
+        posY = (canvasEdgeY - landerSize);
+        changeY = (changeY * reboundRate * -1)
+        changeX = (changeX * reboundRate) 
       }
       else {
         collisionCounter = 0
       };
 
-      if (posY > (canvasEdgeY - landerSize)) { // right edge
+      if (posX > (canvasEdgeX - landerSize)) { // right edge
         console.log("hit the right Y edge!");
-        posY = (canvasEdgeY - landerSize);
-        changeY = (changeY * reboundRate * -1);
-        changeX = (changeX * reboundRate); 
-      };
-
-      if (posX < 0) {                         // upper edge
-        console.log("hit the top X edge!");
-        posX = 0;
+        posX = (canvasEdgeX - landerSize);
         changeX = (changeX * reboundRate * -1);
-        changeY = (changeY * reboundRate);
+        changeY = (changeY * reboundRate); 
       };
 
-      if (posY < 0) {                         // left edge
-        console.log("hit the left Y edge!");
+      if (posY < 0) {                         // upper edge
+        console.log("hit the top X edge!");
         posY = 0;
         changeY = (changeY * reboundRate * -1);
         changeX = (changeX * reboundRate);
       };
+
+      if (posX < 0) {                         // left edge
+        console.log("hit the left Y edge!");
+        posY = 0;
+        changeX = (changeX * reboundRate * -1);
+        changeY = (changeY * reboundRate);
+      };
     };
 
-   function to_i(_value)
+   function to_i(_value) // uses Bitwise operator to convert to int - faster than Math methods
     {
      return _value | 0
     };
@@ -119,13 +118,16 @@
   </script>
 
     <style type="text/css">
-      canvas { border: 1px solid black; }
+      canvas { 
+        border: 0px solid black; 
+        background-color: black;
+      }
     </style>
  
   </head>
  
   <body onload="loop();">
-    <canvas id="canvas" width="500" height="500"></canvas>
+    <canvas id="canvas" width="1440" height="784"></canvas>
   </body>
 
 </html>
