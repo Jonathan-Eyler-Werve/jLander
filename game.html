@@ -6,7 +6,7 @@
     var gameLoopCounter = 0;
     var frameRate = 30;
     var cycleTime = (1000 / frameRate);
-    var landerSize = 10;
+    var landerSize = 10; // lander is a square
     var reboundRate = .9 // defines bounce decay; 1 is perfect rebound; .9 is "natural"
     var changeY = 0; // starting vertical velocity
     var changeX = 5; // starting horizontal velocity
@@ -14,10 +14,10 @@
     var posY = 0; // starting vertical position
     var accelY = 1; // vertical forces at work!  
     var accelX = 0; // horizontal forces at work! 
-    var drag = 0.9999;
+    var drag = 0.9999; // atmostphere!
     var canvasEdgeY = 784; 
     var canvasEdgeX = 1440;
-    var collisionCounter = 0;
+    var collisionCounter = 0; //always init to zero 
 
     function loop(){
 
