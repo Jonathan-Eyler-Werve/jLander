@@ -1,7 +1,7 @@
 <html>
   <head>
     <title>jLander</title>
-    
+
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script>
   <script type="application/javascript">
     var gameLoopCounter = 0;
@@ -39,7 +39,7 @@
       },cycleTime);
     };
 
-    function buttonCheck();
+    function buttonCheck(){};
 
     function draw(){
       console.log("draw starts")
@@ -63,7 +63,7 @@
 
     function thrustOn(direction) {
       if (direction == "up"){
-        accelY = accelY + thrust
+        accelY = accelY + thrust;
       }
       else {
         console.log("ThrustOn lacks direction.")
