@@ -1,3 +1,5 @@
+<!-- file://localhost/Users/jonathan/gdrive/CODE/jLander/game.html -->
+
 <html>
   <head>
     <title>jLander</title>
@@ -17,7 +19,7 @@
     var accelY = 1; // vertical forces at work!  
     var accelX = 0; // horizontal forces at work! 
     var drag = 0.9999; // atmosphere! ; 1 is no drag
-    var thrust = 5; // static thrust powers
+    var thrust = 0; // dynamic thrust powers!
     var canvasEdgeY = 784; 
     var canvasEdgeX = 1440;
     var collisionCounter = 0; //always init to zero 
@@ -26,12 +28,15 @@
 
 
     $( document ).ready(function() {
-      alert( "doc ready!" );
-
-      // $( document ).keydown(function(event) {
-      //   event.preventDefault();
-      //   thrustOn("up");
-      // });
+      // key listeners 
+      $( document ).keydown(function(event) {
+        event.preventDefault();
+        thrustOn("up"); //any key! 
+      });
+      $( document ).keyup(function(event) {
+        event.preventDefault();
+        thrustOff("up"); //any key! 
+      });
 
     });
 
@@ -39,32 +44,24 @@
     function loop(){
 
       setInterval(function(){
-        console.log("loop starts. gameLoopCounter = " + gameLoopCounter);
+        // console.log("loop starts. gameLoopCounter = " + gameLoopCounter);
+        console.log("changeY = " + changeY)
+        console.log("accelY = " + accelY)
         gameLoopCounter += 1; 
-        buttonCheck();
         changeX = (changeX + accelX) * drag;
-        changeY = (changeY + accelY) * drag; 
+        changeY = (changeY + accelY + thrust) * drag; 
         posX += changeX;
         posY += changeY;
         staticFriction(0.1);
-        console.log("positions updated to " + posX + " " + posY);
+        // console.log("positions updated to " + posX + " " + posY);
         collisionCheck();
         draw();
       },cycleTime);
     };
 
-$( document ).keydown(function(event) {
-         event.preventDefault();
-         thrustOn("up");
-      });
-
-    function buttonCheck(){
-      
-    };
-
 
     function draw(){
-      console.log("draw starts")
+      // console.log("draw starts")
 
       var canvas = document.getElementById("canvas");
       if (canvas.getContext) {
@@ -74,7 +71,7 @@ $( document ).keydown(function(event) {
         ctx.fillStyle = "rgba(0, 255, 0, 1)";
         drawPosY = to_i(posY);
         drawPosX = to_i(posX);
-        console.log("drawing postions as " + drawPosX + " " + drawPosY)
+        // console.log("drawing postions as " + drawPosX + " " + drawPosY)
         ctx.fillRect (drawPosX, drawPosY, landerSize, landerSize);
 
       }
@@ -85,7 +82,8 @@ $( document ).keydown(function(event) {
 
     function thrustOn(direction) {
       if (direction == "up"){
-        accelY = accelY + thrust;
+        thrust = -3;
+        console.log("ThrustOn - up")
       }
       else {
         console.log("ThrustOn lacks direction.")
@@ -94,8 +92,10 @@ $( document ).keydown(function(event) {
     } 
 
     function thrustOff(direction){
+
       if (direction == "up") {
-        accelY = accelY - thrust 
+        thrust = 0
+        console.log("ThrustOff - up")
       }
       else {
         console.log("ThrustOff lacks direction.")
@@ -121,7 +121,7 @@ $( document ).keydown(function(event) {
 
 
     function collisionCheck(){
-      console.log("collisionCheck starts. collisionCounter = " + collisionCounter);
+      // console.log("collisionCheck starts. collisionCounter = " + collisionCounter);
 
       if (posY > (canvasEdgeY - landerSize)) { // lower edge
         console.log("hit the bottom Y edge!");
