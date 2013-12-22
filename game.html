@@ -2,24 +2,38 @@
   <head>
     <title>jLander</title>
 
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script>
+
   <script type="application/javascript">
     var gameLoopCounter = 0;
     var frameRate = 30;
     var cycleTime = (1000 / frameRate);
     var landerSize = 10; // lander is a square
-    var reboundRate = .9 // defines bounce decay; 1 is perfect rebound; .9 is "natural"
+    var reboundRate = .99 // defines bounce decay; 1 is perfect rebound; .9 is "natural"
     var changeY = 0; // starting vertical velocity
     var changeX = 5; // starting horizontal velocity
     var posX  = 0; // starting horizontal position 
     var posY = 0; // starting vertical position
     var accelY = 1; // vertical forces at work!  
     var accelX = 0; // horizontal forces at work! 
-    var drag = 0.9999; // atmostphere!
+    var drag = 0.9999; // atmosphere! ; 1 is no drag
     var thrust = 5; // static thrust powers
     var canvasEdgeY = 784; 
     var canvasEdgeX = 1440;
     var collisionCounter = 0; //always init to zero 
+
+
+
+
+    $( document ).ready(function() {
+      alert( "doc ready!" );
+
+      // $( document ).keydown(function(event) {
+      //   event.preventDefault();
+      //   thrustOn("up");
+      // });
+
+    });
 
 
     function loop(){
@@ -39,7 +53,15 @@
       },cycleTime);
     };
 
-    function buttonCheck(){};
+$( document ).keydown(function(event) {
+         event.preventDefault();
+         thrustOn("up");
+      });
+
+    function buttonCheck(){
+      
+    };
+
 
     function draw(){
       console.log("draw starts")
