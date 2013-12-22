@@ -22,8 +22,7 @@
     var thrust = 0; // dynamic thrust powers!
     var canvasEdgeY = 784; 
     var canvasEdgeX = 1440;
-    var collisionCounter = 0; //always init to zero 
-
+    var collisionCounter = 0; //counts multiple collisions for static friction, always init to zero 
 
 
 
@@ -39,19 +38,35 @@
           thrustOn("up", .2); 
         }
         else if ( event.which == 51) { // 3
-          thrustOn("up", .3); 
+          thrustOn("up", .3);
         }
         else if ( event.which == 52) { // 4
           thrustOn("up", .4); 
         }
         else if ( event.which == 53) { // 5 
-          thrustOn("up", .5); 
+          thrustOn("up", .5);
         };
 
       });
       $( document ).keyup(function(event) {
         event.preventDefault();
-        thrustOff("up"); //any key! 
+
+        if ( event.which == 49 ) { // 1
+          thrustOff("up");
+        }
+        else if ( event.which == 50) { // 2
+          thrustOff("up");
+        }
+        else if ( event.which == 51) { // 3
+          thrustOff("up");             
+        }
+        else if ( event.which == 52) { // 4
+          thrustOff("up");
+        }
+        else if ( event.which == 53) { // 5 
+          thrustOff("up"); 
+        };
+
       });
 
     });
@@ -61,8 +76,9 @@
 
       setInterval(function(){
         // console.log("loop starts. gameLoopCounter = " + gameLoopCounter);
-        console.log("changeY = " + changeY)
-        console.log("accelY = " + accelY)
+        // console.log("changeY = " + changeY);
+        // console.log("accelY = " + accelY);
+        // console.log("thrustY = " + thrust);
         gameLoopCounter += 1; 
         changeX = (changeX + accelX) * drag;
         changeY = (changeY + accelY + thrust) * drag; 
@@ -108,10 +124,9 @@
     } 
 
     function thrustOff(direction){
-
       if (direction == "up") {
-        thrust = 0
-        console.log("ThrustOff - up")
+        thrust = 0;
+        console.log("ThrustOff - up");
       }
       else {
         console.log("ThrustOff lacks direction.")
