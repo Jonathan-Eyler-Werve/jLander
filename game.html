@@ -31,7 +31,23 @@
       // key listeners 
       $( document ).keydown(function(event) {
         event.preventDefault();
-        thrustOn("up"); //any key! 
+
+        if ( event.which == 49 ) { // 1
+          thrustOn("up", .1); 
+        }
+        else if ( event.which == 50) { // 2
+          thrustOn("up", .2); 
+        }
+        else if ( event.which == 51) { // 3
+          thrustOn("up", .3); 
+        }
+        else if ( event.which == 52) { // 4
+          thrustOn("up", .4); 
+        }
+        else if ( event.which == 53) { // 5 
+          thrustOn("up", .5); 
+        };
+
       });
       $( document ).keyup(function(event) {
         event.preventDefault();
@@ -80,10 +96,10 @@
       }  
     }
 
-    function thrustOn(direction) {
+    function thrustOn(direction, percent) {
       if (direction == "up"){
-        thrust = -3;
-        console.log("ThrustOn - up")
+        thrust = (-10 * percent);
+        console.log("ThrustOn - " + direction + " " + percent )
       }
       else {
         console.log("ThrustOn lacks direction.")
