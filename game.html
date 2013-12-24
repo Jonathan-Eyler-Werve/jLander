@@ -7,6 +7,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script>
 
   <script type="application/javascript">
+    var lander = new Image();
     var gameLoopCounter = 0;
     var frameRate = 30;
     var cycleTime = (1000 / frameRate);
@@ -16,20 +17,21 @@
     var changeX = 5; // starting horizontal velocity
     var posX  = 0; // starting horizontal position 
     var posY = 0; // starting vertical position
-    var accelY = .5; // gravity at work! , postive is more gravity
+    var accelY = .5; // gravity at work!, larger is more gravity
     var accelX = 0; // horizontal forces at work! 
     var pitch = 45
     var changePitch = 1
     var accelPitch = 0
     var drag = 0.9999; // atmosphere! ; 1 is no drag
-    var thrust = 0; // dynamic thrust powers!
-    var canvasEdgeY = 784; 
-    var canvasEdgeX = 1420;
+    var thrust = 0; // dynamic thrust powers! inits to zero
+    var canvasEdgeY = 784; // sync this with HTML below
+    var canvasEdgeX = 1420; // sync this with HTML below
     var collisionCounter = 0; //counts multiple collisions for static friction, always init to zero 
 
-
-
     $( document ).ready(function() {
+      // init stuff
+      lander.src = 'rocket-64x64.png';
+      console.log(lander)
       // key listeners 
       $( document ).keydown(function(event) {
         event.preventDefault();
@@ -56,8 +58,8 @@
           changePitch += 1;
         };
 
-
       });
+
       $( document ).keyup(function(event) {
         event.preventDefault();
 
@@ -128,8 +130,8 @@
 
     function drawLander(ctx){
 
-
-      ctx.fillRect (0, 0, landerSize, landerSize);
+      ctx.drawImage(lander,0,0);
+      ctx.fillRect(-5, -5, landerSize, landerSize);
       // ctx.beginPath();
       // ctx.moveTo(25, 25);
       // ctx.lineTo(-25, -25);
@@ -142,7 +144,7 @@
 
     function thrustOn(direction, percent) {
       if (direction == "up"){
-        thrust = (-10 * percent);
+        thrust = (-5 * percent);
         console.log("ThrustOn - " + direction + " " + percent )
       }
       else {
@@ -227,7 +229,7 @@
     <style type="text/css">
       canvas { 
         border: 0px solid black; 
-        background-color: black;
+        background-color: #999999;
       }
     </style>
  
