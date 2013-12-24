@@ -11,7 +11,7 @@
     var gameLoopCounter = 0;
     var frameRate = 30;
     var cycleTime = (1000 / frameRate);
-    var landerSize = 10; // lander is a square
+    var landerRadius = 32; // half of image height (more or less)
     var reboundRate = .99 // defines bounce decay; 1 is perfect rebound; .9 is "natural"
     var changeY = 2; // starting vertical velocity
     var changeX = 5; // starting horizontal velocity
@@ -130,15 +130,8 @@
 
     function drawLander(ctx){
 
-      ctx.drawImage(lander,0,0);
-      ctx.fillRect(-5, -5, landerSize, landerSize);
-      // ctx.beginPath();
-      // ctx.moveTo(25, 25);
-      // ctx.lineTo(-25, -25);
-      // ctx.lineTo(25, -25);
-      // ctx.lineTo(-25, 25);
-      // ctx.closePath();
-      // ctx.fill();
+      ctx.drawImage(lander,-32,-32);
+
     };
 
 
@@ -184,11 +177,11 @@
     function collisionCheck(){
       // console.log("collisionCheck starts. collisionCounter = " + collisionCounter);
 
-      if (posY > (canvasEdgeY - landerSize)) { // lower edge
+      if (posY > (canvasEdgeY - landerRadius)) { // lower edge
         console.log("hit the bottom Y edge!");
         collisionCounter += 1;
 
-        posY = (canvasEdgeY - landerSize);
+        posY = (canvasEdgeY - landerRadius);
         changeY = (changeY * reboundRate * -1)
         changeX = (changeX * reboundRate) 
       }
@@ -196,23 +189,23 @@
         collisionCounter = 0
       };
 
-      if (posX > (canvasEdgeX - landerSize)) { // right edge
+      if (posX > (canvasEdgeX - landerRadius)) { // right edge
         console.log("hit the right Y edge!");
-        posX = (canvasEdgeX - landerSize);
+        posX = (canvasEdgeX - landerRadius);
         changeX = (changeX * reboundRate * -1);
         changeY = (changeY * reboundRate); 
       };
 
-      if (posY < 0) {                         // upper edge
+      if (posY < landerRadius) {                         // upper edge
         console.log("hit the top X edge!");
-        posY = 0;
+        posY = landerRadius;
         changeY = (changeY * reboundRate * -1);
         changeX = (changeX * reboundRate);
       };
 
-      if (posX < 0) {                         // left edge
+      if (posX < landerRadius) {                         // left edge
         console.log("hit the left X edge!");
-        posX = 0;
+        posX = landerRadius;
         changeX = (changeX * reboundRate * -1);
         changeY = (changeY * reboundRate);
       };
@@ -229,7 +222,7 @@
     <style type="text/css">
       canvas { 
         border: 0px solid black; 
-        background-color: #999999;
+        background-color: #FFFFFF;
       }
     </style>
  
