@@ -12,7 +12,7 @@
     var frameRate = 30;
     var cycleTime = (1000 / frameRate);
     var landerRadius = 32; // half of image height (more or less)
-    var reboundRate = .99 // defines bounce decay; 1 is perfect rebound; .9 is "natural"
+    var reboundRate = .8 // defines bounce decay; 1 is perfect rebound; .8 is "natural"
     var changeY = 2; // starting vertical velocity
     var changeX = 5; // starting horizontal velocity
     var posX  = 0; // starting horizontal position 
@@ -38,23 +38,23 @@
 
         if ( event.which == 49 ) { // 1
           thrustOn("up", .1); 
-        }
-        else if ( event.which == 50) { // 2
+        };
+        if ( event.which == 50) { // 2
           thrustOn("up", .2); 
-        }
-        else if ( event.which == 51) { // 3
+        };
+        if ( event.which == 51) { // 3
           thrustOn("up", .3);
-        }
-        else if ( event.which == 52) { // 4
+        };
+        if ( event.which == 52) { // 4
           thrustOn("up", .4); 
-        }
-        else if ( event.which == 53) { // 5 
+        };
+        if ( event.which == 53) { // 5 
           thrustOn("up", .5);
-        } 
-        else if ( event.which == 188) { // < 
+        }; 
+        if ( event.which == 188) { // < 
           changePitch += -1;
-        }  
-        else if ( event.which == 190) { // >
+        };  
+        if ( event.which == 190) { // >
           changePitch += 1;
         };
 
@@ -121,6 +121,7 @@
         ctx.translate(drawPosX, drawPosY);
         ctx.rotate(pitch * Math.PI / 180);
         drawLander(ctx);
+        drawData(ctx);
         ctx.restore();
       }
       else {
@@ -134,16 +135,28 @@
 
     };
 
+    function drawData(ctx){
+
+    };
+
 
     function thrustOn(direction, percent) {
-      if (direction == "up"){
-        thrust = (-5 * percent);
-        console.log("ThrustOn - " + direction + " " + percent )
-      }
-      else {
-        console.log("ThrustOn lacks direction.")
-        engineError();
-      }    
+      // if (direction == "up"){
+      //   thrust = (-5 * percent);
+      //   console.log("ThrustOn - " + direction + " " + percent )
+      // }
+      // else {
+      //   console.log("ThrustOn - invalid direction.")
+      //   engineError();
+      // } 
+
+      // rewrite thrustOn so that X and Y change are from polar coordinates
+      // x accel = thrust × cos( direction )
+      // y accel = thrust × sin( direction )
+      // http://www.mathsisfun.com/polar-cartesian-coordinates.html
+
+      
+
     } 
 
     function thrustOff(direction){
@@ -152,7 +165,7 @@
         console.log("ThrustOff - up");
       }
       else {
-        console.log("ThrustOff lacks direction.")
+        console.log("ThrustOff - invalid direction.")
         engineError();
       }    
     }
