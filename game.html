@@ -142,15 +142,15 @@
     };
 
 
-    function thrustOnY(direction, percent) {
+    function thrustOnX(degrees, percent) {
     
       // rewrite thrustOn so that X and Y change are from polar coordinates
       // x accel = thrust × cos( pitch )
       // y accel = thrust × sin( pitch )
       // http://www.mathsisfun.com/polar-cartesian-coordinates.html
  
-      var thrust = (5 * percent);
-      thrust * Math.sin(direction);
+      var thrust = 5; // percent thrust feature goes here (5 * percent). 
+      return (thrust * Math.sin(to_rad(degrees)));
 
     } 
 
@@ -213,21 +213,38 @@
       };
     };
 
-   function to_i(_value) 
+    function to_i(_value) 
    // uses Bitwise operator to convert value to int - allegedly faster than Math methods
     {
      return _value | 0
     };
 
+    function to_rad(_degrees){
+      return _degrees * (Math.PI / 180)
+    };
+
+
+
   </script>
+
 
   <script>
     // tests! 
 
-    // pitch 0 = straight up; 90, 180, 270; modulo
+    // pitch 0 = straight up; clockwise 90, 180, 270; modulo 360
 
-    console.log("tests working = " + (1 == 1))
-    console.log("thrustOnY(0,1) = " + (thrustOnY(0, 1) == 5 ))
+    console.log("tests working = " + (1 == 1));
+    console.log("Math.sin(0) = " + (Math.sin(0) == 0));
+    console.log("thrustOnX(0,1) = " + (thrustOnX(0, 1) == 0));
+    console.log("Math.sin(to_rad(90)) = 1 " + (Math.sin(to_rad(90)) == 1));
+    console.log("Math.sin(to_rad(270)) = -1 " + (Math.sin(to_rad(270)) == -1));  
+    console.log("Degrees to radians = " + (to_rad(180) == Math.PI));
+    console.log("thrustOnX(0,1) = " + (thrustOnX(0, 1) == 0));
+    console.log("thrustOnX(90,1) = " + (thrustOnX(90, 1) == 5));
+    console.log("thrustOnX(270,1) = " + (thrustOnX(270, 1) == -5));
+    console.log("thrustOnX(180,1) = " + (thrustOnX(180, 1) < (.000000000001))); // fucking floating point
+
+    
 
 
 
