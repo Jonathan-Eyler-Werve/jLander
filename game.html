@@ -70,19 +70,21 @@
         event.preventDefault();
 
         if ( event.which == 49 ) { // 1
-          thrustOff("up");
-        }
-        else if ( event.which == 50) { // 2
-          thrustOff("up");
-        }
-        else if ( event.which == 51) { // 3
-          thrustOff("up");             
-        }
-        else if ( event.which == 52) { // 4
-          thrustOff("up");
-        }
-        else if ( event.which == 53) { // 5 
-          thrustOff("up"); 
+          thrustX = thrustOff();
+          thrustY = thrustOff();
+        };
+        if ( event.which == 50) { // 2
+          thrustX = thrustOff();
+          thrustY = thrustOff();
+        };
+        if ( event.which == 51) { // 3
+              
+        };
+        if ( event.which == 52) { // 4
+ 
+        };
+        if ( event.which == 53) { // 5 
+  
         };
 
       });
@@ -149,14 +151,13 @@
       // y accel = thrust × sin( pitch )
       // http://www.mathsisfun.com/polar-cartesian-coordinates.html
  
-      var thrust = 5; // percent thrust feature goes here (5 * percent). 
-      return (thrust * Math.sin(to_rad(degrees)));
-
+      var _thrust = (5 * percent); 
+      return (_thrust * Math.sin(to_rad(degrees)));
     } 
 
     function thrustOff(){ // needs refactoring! 
       console.log("ThrustOff completes"); 
-      0;
+      return 0;
     }
 
     function staticFriction(frictionDetect){
@@ -243,8 +244,9 @@
     console.log("thrustOnX(90,1) = " + (thrustOnX(90, 1) == 5));
     console.log("thrustOnX(270,1) = " + (thrustOnX(270, 1) == -5));
     console.log("thrustOnX(180,1) = " + (thrustOnX(180, 1) < (.000000000001))); // fucking floating point
-
-    
+    // commit 12/16 17:23
+    console.log("thrustOff() = " + (thrustOff() == 0) );
+    console.log("thrustOnX(0,.5) = " + (thrustOnX(90,.5) == 2.5) );
 
 
 
