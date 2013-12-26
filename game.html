@@ -38,19 +38,19 @@
         event.preventDefault();
 
         if ( event.which == 49 ) { // 1
-          thrustOn("up", .1); 
+          thrustOn(pitch, .1); 
         };
         if ( event.which == 50) { // 2
-          thrustOn("up", .2); 
+          thrustOn(pitch, .2); 
         };
         if ( event.which == 51) { // 3
-          thrustOn("up", .3);
+          thrustOn(pitch, .3);
         };
         if ( event.which == 52) { // 4
-          thrustOn("up", .4); 
+          thrustOn(pitch, .4); 
         };
         if ( event.which == 53) { // 5 
-          thrustOn("up", .5);
+          thrustOn(pitch, .5);
         }; 
         if ( event.which == 188) { // < 
           changePitch += -1;
@@ -88,10 +88,7 @@
     function loop(){
 
       setInterval(function(){
-        // console.log("loop starts. gameLoopCounter = " + gameLoopCounter);
-        // console.log("momentumY = " + momentumY);
-        // console.log("accelY = " + accelY);
-        // console.log("thrustY = " + thrust);
+
         gameLoopCounter += 1; 
         momentumX = (momentumX + gravityX + thrustX) * drag;
         momentumY = (momentumY + gravityY + thrustY) * drag; 
@@ -107,8 +104,7 @@
 
 
     function draw(){
-      // console.log("draw starts")
-
+      
       var canvas = document.getElementById("canvas");
       if (canvas.getContext) {
 
@@ -142,37 +138,27 @@
 
 
     function thrustOn(direction, percent) {
-      
-      // // thrust goes vertical, ignores pitch
-      // if (direction == "up"){
-      //   thrust = (-5 * percent);
-      //   console.log("ThrustOn - " + direction + " " + percent )
-      // }
-      // else {
-      //   console.log("ThrustOn - invalid direction.")
-      //   engineError();
-      // } 
-
-
-
+    
       // rewrite thrustOn so that X and Y change are from polar coordinates
       // x accel = thrust × cos( pitch )
       // y accel = thrust × sin( pitch )
       // http://www.mathsisfun.com/polar-cartesian-coordinates.html
+ 
+      var thrust = (5 * percent);
+      thrustY = (thrust * Math.sin(direction));
 
+      console.log("thrust = " + thrust)
+      console.log("direction = " + direction);
+      console.log(Math.sin(direction));
+      console.log("thrustY = " + thrustY);
 
 
     } 
 
-    function thrustOff(direction){
-      if (direction == "up") {
-        thrust = 0;
-        console.log("ThrustOff - up");
-      }
-      else {
-        console.log("ThrustOff - invalid direction.")
-        engineError();
-      }    
+    function thrustOff(){
+      thrustY = 0;
+      thrustX = 0;
+      console.log("ThrustOff completes"); 
     }
 
     function staticFriction(frictionDetect){
@@ -180,14 +166,14 @@
       }
       else {  
         momentumY = 0;
-        console.log("Static Y friction active")
+        // console.log("Static Y friction active")
       };
 
       if ( momentumX > frictionDetect || momentumX < (frictionDetect * -1) ){  
       }
       else {
         momentumX = 0;
-        console.log("Static X friction active")
+        // console.log("Static X friction active")
       };
     };
 
@@ -196,7 +182,7 @@
       // console.log("collisionCheck starts. collisionCounter = " + collisionCounter);
 
       if (posY > (canvasEdgeY - landerRadius)) { // lower edge
-        console.log("hit the bottom Y edge!");
+        // console.log("hit the bottom Y edge!");
         collisionCounter += 1;
 
         posY = (canvasEdgeY - landerRadius);
@@ -208,21 +194,21 @@
       };
 
       if (posX > (canvasEdgeX - landerRadius)) { // right edge
-        console.log("hit the right Y edge!");
+        // console.log("hit the right Y edge!");
         posX = (canvasEdgeX - landerRadius);
         momentumX = (momentumX * reboundRate * -1);
         momentumY = (momentumY * reboundRate); 
       };
 
-      if (posY < landerRadius) {                         // upper edge
-        console.log("hit the top X edge!");
+      if (posY < landerRadius) {                 // upper edge
+        // console.log("hit the top X edge!");
         posY = landerRadius;
         momentumY = (momentumY * reboundRate * -1);
         momentumX = (momentumX * reboundRate);
       };
 
-      if (posX < landerRadius) {                         // left edge
-        console.log("hit the left X edge!");
+      if (posX < landerRadius) {                 // left edge
+        // console.log("hit the left X edge!");
         posX = landerRadius;
         momentumX = (momentumX * reboundRate * -1);
         momentumY = (momentumY * reboundRate);
@@ -234,8 +220,16 @@
      return _value | 0
     };
 
+  </script>
+
+  <script>
+    // tests! 
+
+
 
   </script>
+
+
 
     <style type="text/css">
       canvas { 
