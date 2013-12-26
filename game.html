@@ -13,17 +13,18 @@
     var cycleTime = (1000 / frameRate);
     var landerRadius = 32; // half of image height (more or less)
     var reboundRate = .8 // defines bounce decay; 1 is perfect rebound; .8 is "natural"
-    var changeY = 2; // starting vertical velocity
-    var changeX = 5; // starting horizontal velocity
+    var momentumY = 2; // starting vertical velocity
+    var momentumX = 5; // starting horizontal velocity
     var posX  = 0; // starting horizontal position 
     var posY = 0; // starting vertical position
-    var accelY = .5; // gravity at work!, larger is more gravity
-    var accelX = 0; // horizontal forces at work! 
+    var gravityY = .5; // gravity at work!, larger is more gravity
+    var gravityX = 0; // horizontal forces at work! 
     var pitch = 45
     var changePitch = 1
     var accelPitch = 0
     var drag = 0.9999; // atmosphere! ; 1 is no drag
-    var thrust = 0; // dynamic thrust powers! inits to zero
+    var thrustX = 0; // dynamic thrust powers! inits to zero
+    var thrustY = 0; // dynamic thrust powers! inits to zero
     var canvasEdgeY = 784; // sync this with HTML below
     var canvasEdgeX = 1420; // sync this with HTML below
     var collisionCounter = 0; //counts multiple collisions for static friction, always init to zero 
@@ -88,14 +89,14 @@
 
       setInterval(function(){
         // console.log("loop starts. gameLoopCounter = " + gameLoopCounter);
-        // console.log("changeY = " + changeY);
+        // console.log("momentumY = " + momentumY);
         // console.log("accelY = " + accelY);
         // console.log("thrustY = " + thrust);
         gameLoopCounter += 1; 
-        changeX = (changeX + accelX) * drag;
-        changeY = (changeY + accelY + thrust) * drag; 
-        posX += changeX;
-        posY += changeY;
+        momentumX = (momentumX + gravityX + thrustX) * drag;
+        momentumY = (momentumY + gravityY + thrustY) * drag; 
+        posX += momentumX;
+        posY += momentumY;
         pitch += changePitch;
         staticFriction(0.1);
         // console.log("positions updated to " + posX + " " + posY);
@@ -141,6 +142,8 @@
 
 
     function thrustOn(direction, percent) {
+      
+      // // thrust goes vertical, ignores pitch
       // if (direction == "up"){
       //   thrust = (-5 * percent);
       //   console.log("ThrustOn - " + direction + " " + percent )
@@ -150,12 +153,14 @@
       //   engineError();
       // } 
 
+
+
       // rewrite thrustOn so that X and Y change are from polar coordinates
-      // x accel = thrust × cos( direction )
-      // y accel = thrust × sin( direction )
+      // x accel = thrust × cos( pitch )
+      // y accel = thrust × sin( pitch )
       // http://www.mathsisfun.com/polar-cartesian-coordinates.html
 
-      
+
 
     } 
 
@@ -174,14 +179,14 @@
       if (collisionCounter < 3){
       }
       else {  
-        changeY = 0;
+        momentumY = 0;
         console.log("Static Y friction active")
       };
 
-      if ( changeX > frictionDetect || changeX < (frictionDetect * -1) ){  
+      if ( momentumX > frictionDetect || momentumX < (frictionDetect * -1) ){  
       }
       else {
-        changeX = 0;
+        momentumX = 0;
         console.log("Static X friction active")
       };
     };
@@ -195,8 +200,8 @@
         collisionCounter += 1;
 
         posY = (canvasEdgeY - landerRadius);
-        changeY = (changeY * reboundRate * -1)
-        changeX = (changeX * reboundRate) 
+        momentumY = (momentumY * reboundRate * -1)
+        momentumX = (momentumX * reboundRate) 
       }
       else {
         collisionCounter = 0
@@ -205,22 +210,22 @@
       if (posX > (canvasEdgeX - landerRadius)) { // right edge
         console.log("hit the right Y edge!");
         posX = (canvasEdgeX - landerRadius);
-        changeX = (changeX * reboundRate * -1);
-        changeY = (changeY * reboundRate); 
+        momentumX = (momentumX * reboundRate * -1);
+        momentumY = (momentumY * reboundRate); 
       };
 
       if (posY < landerRadius) {                         // upper edge
         console.log("hit the top X edge!");
         posY = landerRadius;
-        changeY = (changeY * reboundRate * -1);
-        changeX = (changeX * reboundRate);
+        momentumY = (momentumY * reboundRate * -1);
+        momentumX = (momentumX * reboundRate);
       };
 
       if (posX < landerRadius) {                         // left edge
         console.log("hit the left X edge!");
         posX = landerRadius;
-        changeX = (changeX * reboundRate * -1);
-        changeY = (changeY * reboundRate);
+        momentumX = (momentumX * reboundRate * -1);
+        momentumY = (momentumY * reboundRate);
       };
     };
 
