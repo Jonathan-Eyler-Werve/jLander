@@ -17,16 +17,16 @@
     var momentumX = 5; // starting horizontal velocity
     var posX  = 0; // starting horizontal position 
     var posY = 0; // starting vertical position
-    var gravityY = .5; // gravity at work!, larger is more gravity
     var gravityX = 0; // horizontal forces at work! 
-    var pitch = 45
-    var changePitch = 1
+    var gravityY = .5; // gravity at work!, larger is more gravity
+    var pitch = 0
+    var changePitch = 0
     var accelPitch = 0
     var drag = 0.9999; // atmosphere! ; 1 is no drag
     var thrustX = 0; // dynamic thrust powers! inits to zero
     var thrustY = 0; // dynamic thrust powers! inits to zero
-    var canvasEdgeY = 784; // sync this with HTML below
     var canvasEdgeX = 1420; // sync this with HTML below
+    var canvasEdgeY = 784; // sync this with HTML below
     var collisionCounter = 0; //counts multiple collisions for static friction, always init to zero 
 
     $( document ).ready(function() {
@@ -38,20 +38,25 @@
         event.preventDefault();
 
         if ( event.which == 49 ) { // 1
-          thrustOn(pitch, .1); 
+          thrustX = thrustOnX(pitch, .1); 
+          thrustY = thrustOnY(pitch, .1);
         };
         if ( event.which == 50) { // 2
-          thrustOn(pitch, .2); 
+          thrustX = thrustOnX(pitch, .2); 
+          thrustY = thrustOnY(pitch, .2);     
         };
-        if ( event.which == 51) { // 3
-          thrustOn(pitch, .3);
-        };
-        if ( event.which == 52) { // 4
-          thrustOn(pitch, .4); 
-        };
-        if ( event.which == 53) { // 5 
-          thrustOn(pitch, .5);
-        }; 
+
+        // later feature update >> 
+        // if ( event.which == 51) { // 3
+        //   
+        // };
+        // if ( event.which == 52) { // 4
+        //    
+        // };
+        // if ( event.which == 53) { // 5 
+        //  
+        // }; 
+
         if ( event.which == 188) { // < 
           changePitch += -1;
         };  
@@ -137,7 +142,7 @@
     };
 
 
-    function thrustOn(direction, percent) {
+    function thrustOnY(direction, percent) {
     
       // rewrite thrustOn so that X and Y change are from polar coordinates
       // x accel = thrust × cos( pitch )
@@ -145,20 +150,13 @@
       // http://www.mathsisfun.com/polar-cartesian-coordinates.html
  
       var thrust = (5 * percent);
-      thrustY = (thrust * Math.sin(direction));
-
-      console.log("thrust = " + thrust)
-      console.log("direction = " + direction);
-      console.log(Math.sin(direction));
-      console.log("thrustY = " + thrustY);
-
+      thrust * Math.sin(direction);
 
     } 
 
-    function thrustOff(){
-      thrustY = 0;
-      thrustX = 0;
+    function thrustOff(){ // needs refactoring! 
       console.log("ThrustOff completes"); 
+      0;
     }
 
     function staticFriction(frictionDetect){
@@ -215,7 +213,8 @@
       };
     };
 
-   function to_i(_value) // uses Bitwise operator to convert to int - faster than Math methods
+   function to_i(_value) 
+   // uses Bitwise operator to convert value to int - allegedly faster than Math methods
     {
      return _value | 0
     };
@@ -224,6 +223,11 @@
 
   <script>
     // tests! 
+
+    // pitch 0 = straight up; 90, 180, 270; modulo
+
+    console.log("tests working = " + (1 == 1))
+    console.log("thrustOnY(0,1) = " + (thrustOnY(0, 1) == 5 ))
 
 
 
