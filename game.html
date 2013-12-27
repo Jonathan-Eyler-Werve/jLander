@@ -19,9 +19,8 @@
     var posY = 0; // starting vertical position
     var gravityX = 0; // horizontal forces at work! 
     var gravityY = .15; // gravity at work!, larger is more gravity
-    var pitch = 0
+    var pitch = 45
     var changePitch = 0
-    var accelPitch = 0
     var drag = 0.9999; // atmosphere! ; 1 is no drag
     var thrust = 0; // polar thrust
     var thrustX = 0; 
@@ -39,11 +38,11 @@
         event.preventDefault();
 
         if ( event.which == 49 ) { // 1
-          thrust = 1
+          thrust = .4
         };
 
         if ( event.which == 50) { // 2
-          thrust = 2
+          thrust = 1
           thrustX = updateThrustX(pitch, .2); 
           thrustY = updateThrustX(pitch, .2);     
         };
@@ -60,10 +59,10 @@
         // }; 
 
         if ( event.which == 188) { // < 
-          changePitch += -1;
+          changePitch = -1.5;
         };  
         if ( event.which == 190) { // >
-          changePitch += 1;
+          changePitch = 1.5;
         };
 
       });
@@ -87,6 +86,11 @@
   
         };
 
+        if ( event.which == 190 || event.which == 188) { // > or <
+          changePitch = 0;
+        };
+
+
       });
 
     });
@@ -100,6 +104,7 @@
         // caluculateThrust();
         thrustX = updateThrustX(); 
         thrustY = updateThrustY();
+        pitch += changePitch;
         momentumX = (momentumX + gravityX + thrustX) * drag;
         momentumY = (momentumY + gravityY + thrustY) * drag; 
         posX += momentumX;
@@ -235,19 +240,8 @@
     console.log("Math.sin(to_rad(90)) = 1 " + (Math.sin(to_rad(90)) == 1));
     console.log("Math.sin(to_rad(270)) = -1 " + (Math.sin(to_rad(270)) == -1));  
     console.log("Degrees to radians = " + (to_rad(180) == Math.PI));
-    console.log("updateThrustX(0,1) = " + (updateThrustX(0, 1) == 0));
-    console.log("updateThrustX(90,1) = " + (updateThrustX(90, 1) == 5));
-    console.log("updateThrustX(270,1) = " + (updateThrustX(270, 1) == -5));
-    console.log("updateThrustX(180,1) = " + (updateThrustX(180, 1) < .000000000001)); // fucking floating point
-    // commit 12/16 17:23
+      // commit 12/16 17:23
     console.log("thrustOff() = " + (thrustOff() == 0) );
-    console.log("updateThrustX(90,.5) = " + (updateThrustX(90,.5) == 2.5) );
-    // commit 12/26 17:29
-    console.log("updateThrustY(0,1) = " + (updateThrustY(0, 1) == -5));
-    console.log("updateThrustY(90,1) = " + (updateThrustY(90, 1) < .00000000001));
-    console.log("updateThrustY(180,1) = " + (updateThrustY(180, 1) == 5));
-    // commit 12/26 22:02
-    console.log("foo")
 
 
   </script>
