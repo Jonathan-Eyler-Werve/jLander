@@ -146,17 +146,19 @@
 
     function thrustOnX(degrees, percent) {
     
-      // rewrite thrustOn so that X and Y change are from polar coordinates
-      // x accel = thrust × cos( pitch )
-      // y accel = thrust × sin( pitch )
       // http://www.mathsisfun.com/polar-cartesian-coordinates.html
  
       var _thrust = (5 * percent); 
       return (_thrust * Math.sin(to_rad(degrees)));
     } 
 
+    function thrustOnY(degrees, percent) {
+      var _thrust = (-5 * percent);
+      return (_thrust * Math.cos(to_rad(degrees)));
+    };
+
     function thrustOff(){ // needs refactoring! 
-      console.log("ThrustOff completes"); 
+      console.log("ThrustOff runs"); 
       return 0;
     }
 
@@ -247,7 +249,8 @@
     // commit 12/16 17:23
     console.log("thrustOff() = " + (thrustOff() == 0) );
     console.log("thrustOnX(0,.5) = " + (thrustOnX(90,.5) == 2.5) );
-
+    // commit 12/26 17:29
+    console.log("thrustOnY(0,1) = " + (thrustOnY(0, 1) == -5))
 
 
   </script>
@@ -257,7 +260,7 @@
     <style type="text/css">
       canvas { 
         border: 0px solid black; 
-        background-color: #FFFFFF;
+        background-color: #ddd;
       }
     </style>
  
