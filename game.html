@@ -18,14 +18,14 @@
     var posX  = 0; // starting horizontal position 
     var posY = 0; // starting vertical position
     var gravityX = 0; // horizontal forces at work! 
-    var gravityY = .15; // gravity at work!, larger is more gravity
+    var gravityY = .09; // gravity at work!, larger is more gravity
     var pitch = 45
     var changePitch = 0
     var drag = 0.9999; // atmosphere! ; 1 is no drag
     var thrust = 0; // polar thrust
     var thrustX = 0; 
     var thrustY = 0; 
-    var canvasEdgeX = 1420; // sync this with HTML below
+    var canvasEdgeX = 1586; // sync this with HTML below
     var canvasEdgeY = 784; // sync this with HTML below
     var collisionCounter = 0; //counts multiple collisions for static friction, always init to zero 
 
@@ -38,13 +38,11 @@
         event.preventDefault();
 
         if ( event.which == 49 ) { // 1
-          thrust = .4
+          thrust = .12
         };
 
         if ( event.which == 50) { // 2
-          thrust = 1
-          thrustX = updateThrustX(pitch, .2); 
-          thrustY = updateThrustX(pitch, .2);     
+          thrust = .7
         };
 
         // later feature update >> 
@@ -258,7 +256,7 @@
   </head>
  
   <body onload="loop();">
-    <canvas id="canvas" width="1420" height="784"></canvas>
+    <canvas id="canvas" width="1586" height="784"></canvas>
   </body>
 
 </html>
