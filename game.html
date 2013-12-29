@@ -8,8 +8,10 @@
 
   <script type="application/javascript">
     var lander = new Image();
+    var flame = new Image();
+
     var gameLoopCounter = 0;
-    var frameRate = 30;
+    var frameRate = 30; // frames per second
     var cycleTime = (1000 / frameRate);
     var landerRadius = 32; // half of image height (more or less)
     var reboundRate = .8 // defines bounce decay; 1 is perfect rebound; .8 is "natural"
@@ -31,8 +33,11 @@
 
     $( document ).ready(function() {
       // init stuff
-      lander.src = 'rocket-64x64.png';
-      console.log(lander)
+      lander.src = 'lander.svg';
+      flame.src = 'flame.svg';
+
+      console.log(lander);
+
       // key listeners 
       $( document ).keydown(function(event) {
         event.preventDefault();
@@ -130,6 +135,7 @@
         ctx.translate(drawPosX, drawPosY);
         ctx.rotate(to_rad(pitch));
         drawLander(ctx);
+        drawFlame(ctx, thrust);
         drawData(ctx);
         ctx.restore();
       }
@@ -140,6 +146,13 @@
 
     function drawLander(ctx){
       ctx.drawImage(lander,-32,-32);
+    };
+
+    function drawFlame(ctx, _thrust){
+      if ( _thrust > 0 ) {
+        ctx.drawImage(flame,-32,32);
+        
+      };
     };
 
     function drawData(ctx){
@@ -248,8 +261,8 @@
 
     <style type="text/css">
       canvas { 
-        border: 0px solid black; 
-        background-color: #ddd;
+        border: 1px solid green; 
+        background-color: #000;
       }
     </style>
  
