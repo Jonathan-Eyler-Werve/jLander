@@ -25,7 +25,7 @@
     var changePitch = 0
     var drag = 0.9999; // atmosphere! ; 1 is no drag
     var thrust = 0; // polar thrust
-    var flameState = 0;
+    var flameState = 0; // used to animate flame lengths
     var thrustX = 0; 
     var thrustY = 0; 
     var canvasEdgeX = 1586; // sync this with HTML below
@@ -150,19 +150,16 @@
     };
 
     function drawFlame(ctx, _thrust){
-      if (flameState < 30 && _thrust > 0) {
-        flameState += 1;
-      };
+      // if (flameState < 30 && _thrust > 0) {
+      //   flameState += 1;
+      // };
 
-      if (flameState > 0 && _thrust = 0) {
-        flameState -= 1;
-      };
+      // if (flameState > 0 && _thrust = 0) {
+      //   flameState += -1;
+      // };
 
       if ( _thrust > 0 ) {
         // build up thrust over 30 loops
-
-        //work in progres
-        // animate flame style based on flameState
         
         ctx.drawImage(flame,-32,32);
 
@@ -277,6 +274,8 @@
       canvas { 
         border: 1px solid green; 
         background-color: #000;
+        background-image: url('nebula.jpg');
+        background-size: 1586px 784px;
       }
     </style>
  
