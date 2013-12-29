@@ -25,6 +25,7 @@
     var changePitch = 0
     var drag = 0.9999; // atmosphere! ; 1 is no drag
     var thrust = 0; // polar thrust
+    var flameState = 0;
     var thrustX = 0; 
     var thrustY = 0; 
     var canvasEdgeX = 1586; // sync this with HTML below
@@ -149,9 +150,22 @@
     };
 
     function drawFlame(ctx, _thrust){
+      if (flameState < 30 && _thrust > 0) {
+        flameState += 1;
+      };
+
+      if (flameState > 0 && _thrust = 0) {
+        flameState -= 1;
+      };
+
       if ( _thrust > 0 ) {
-        ctx.drawImage(flame,-32,32);
+        // build up thrust over 30 loops
+
+        //work in progres
+        // animate flame style based on flameState
         
+        ctx.drawImage(flame,-32,32);
+
       };
     };
 
@@ -270,6 +284,7 @@
  
   <body onload="loop();">
     <canvas id="canvas" width="1586" height="784"></canvas>
+    Use 1, 2 to thrust. Use < > to rotate. 
   </body>
 
 </html>
