@@ -68,6 +68,7 @@
         if ( event.which == 190) { // >
           changePitch = 1;
         };
+
       });
 
       $( document ).keyup(function(event) {
@@ -94,6 +95,7 @@
         };
       });
     });
+
 
     function loop(){
       setInterval(function(){
@@ -128,6 +130,7 @@
       },cycleTime);
     };
 
+
     function draw(){
       
       var canvas = document.getElementById("canvas");
@@ -150,6 +153,20 @@
         window.alert("You're too good looking to use a browser this old.");
       }  
     }
+
+    function updateStats(){
+      if (fuel > 0 && dead == false){
+        $("#stats").text("Fuel: " + fuel);
+      }
+      else if (fuel < 0 && dead == false){
+        $("#stats").text("Fuel: Boldly into the night we go.");
+      }
+      else if (dead == true) {
+        $("#stats").text("YOU ARE DEAD.");
+      }
+
+    };
+
 
     function drawLander(ctx){
       ctx.drawImage(lander,-32,-32);
@@ -189,22 +206,22 @@
     }
 
     function staticFriction(frictionDetect){
-      if (collisionCounter < 3){
-      }
+      if (collisionCounter < 3){}
       else {  
         momentumY = 0;
         // console.log("Static Y friction active")
       };
 
-      if ( momentumX > frictionDetect || momentumX < (frictionDetect * -1) ){  
-      }
+      if ( momentumX > frictionDetect || momentumX < (frictionDetect * -1) ){}
       else {
         momentumX = 0;
         // console.log("Static X friction active")
       };
     };
 
+
     function collisionCheck(){
+      // console.log("collisionCheck starts. collisionCounter = " + collisionCounter);
 
       if (posY > (canvasEdgeY - landerRadius)) { // lower edge
         // console.log("hit the bottom Y edge!");
@@ -241,17 +258,21 @@
     };
 
     function damageCheck(_x,_y){
+      
       if (_x > .3) {
         console.log("boom X");
         $("canvas").css("background-image", "url(boom.jpg)");
         lander = 0;
         dead = true;
+        updateStats()
       };
+
       if (_y > 3) {
         console.log("boom Y")
         $("canvas").css("background-image", "url(boom.jpg)");
         lander = 0;
         dead = true;
+        updateStats()
       };
     };
 
@@ -271,7 +292,10 @@
       return _degrees * (Math.PI / 180)
     };
 
+
+
   </script>
+
 
   <script>
     // tests! 
@@ -298,8 +322,8 @@
         background-size: 1586px 784px;
         z-index: 0;
       }
-      .stats {
-        margin: 30px;
+      #stats {
+        margin: 50px;
         position: absolute;
         z-index: 100;
         color: #00FF00;
@@ -312,7 +336,7 @@
   </head>
  
   <body onload="loop();">
-    <div class="stats">Fuel: 000000</div>
+    <div id="stats">Fuel: 000000</div>
     <canvas id="canvas" width="1586" height="784"></canvas>
     Use 1, 2 to thrust. Use < > to rotate. 
   </body>
