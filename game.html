@@ -32,13 +32,12 @@
     var canvasEdgeX = 1586; // sync this with HTML below
     var canvasEdgeY = 784; // sync this with HTML below
     var collisionCounter = 0; //counts multiple collisions for static friction, always init to zero 
+    var fuel = 500; 
 
     $( document ).ready(function() {
       // init stuff
       lander.src = 'lander.svg';
       flame.src = 'flame.svg';
-
-      console.log(lander);
 
       // key listeners 
       $( document ).keydown(function(event) {
@@ -102,17 +101,23 @@
 
 
     function loop(){
-
-
-
       setInterval(function(){
-
         if (dead == false) {
-
           gameLoopCounter += 1; 
-          // caluculateThrust();
-          thrustX = updateThrustX(); 
-          thrustY = updateThrustY();
+
+          if (fuel > 0) {
+            thrustX = updateThrustX(); 
+            thrustY = updateThrustY();
+            console.log("fuel = " + fuel)
+          }
+          else {
+            thrustX = 0;
+            thrustY = 0;
+            flame.src = 0;
+            changePitch = -.3;
+          };
+
+          updateStats();
           pitch += changePitch;
           momentumX = (momentumX + gravityX + thrustX) * drag;
           momentumY = (momentumY + gravityY + thrustY) * drag; 
@@ -247,27 +252,26 @@
 
 
     function damageCheck(_x,_y){
-      
-      
       if (_x > .3) {
         console.log("boom X");
         $("canvas").css("background-image", "url(boom.jpg)");
         lander = 0;
         dead = true;
-     
       };
-
       if (_y > 3) {
         console.log("boom Y")
         $("canvas").css("background-image", "url(boom.jpg)");
         lander = 0;
         dead = true;
       };
-
     };
 
-    // function consumeFuel
-
+    function consumeFuel (_thrust) {
+      if (_thrust > 0) {
+        fuel += -1; 
+      };
+    };
+      
     function to_i(_value) 
    // uses Bitwise operator to convert value to int - allegedly faster than Math methods
     {
@@ -306,12 +310,23 @@
         background-color: #000;
         background-image: url('nebula.jpg');
         background-size: 1586px 784px;
+        z-index: 0;
+      }
+      .stats {
+        margin: 30px;
+        position: absolute;
+        z-index: 100;
+        color: #00FF00;
+        font-size: 20px;
+        font-family: helvetica;
+
       }
     </style>
  
   </head>
  
   <body onload="loop();">
+    <div class="stats">Fuel: 000000</div>
     <canvas id="canvas" width="1586" height="784"></canvas>
     Use 1, 2 to thrust. Use < > to rotate. 
   </body>
