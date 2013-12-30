@@ -68,7 +68,6 @@
         if ( event.which == 190) { // >
           changePitch = 1;
         };
-
       });
 
       $( document ).keyup(function(event) {
@@ -93,12 +92,8 @@
         if ( event.which == 190 || event.which == 188) { // > or <
           changePitch = 0;
         };
-
-
       });
-
     });
-
 
     function loop(){
       setInterval(function(){
@@ -129,11 +124,9 @@
           collisionCheck();
           consumeFuel(thrust);
           draw();
-
         };
       },cycleTime);
     };
-
 
     function draw(){
       
@@ -211,15 +204,12 @@
       };
     };
 
-
     function collisionCheck(){
-      // console.log("collisionCheck starts. collisionCounter = " + collisionCounter);
 
       if (posY > (canvasEdgeY - landerRadius)) { // lower edge
         // console.log("hit the bottom Y edge!");
         collisionCounter += 1;
         damageCheck(momentumX, momentumY);
-
         posY = (canvasEdgeY - landerRadius);
         momentumY = (momentumY * reboundRate * -1)
         momentumX = (momentumX * reboundRate) 
@@ -249,7 +239,6 @@
         momentumY = (momentumY * reboundRate);
       };
     };
-
 
     function damageCheck(_x,_y){
       if (_x > .3) {
@@ -282,10 +271,7 @@
       return _degrees * (Math.PI / 180)
     };
 
-
-
   </script>
-
 
   <script>
     // tests! 
