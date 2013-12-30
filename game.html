@@ -10,11 +10,12 @@
     var lander = new Image();
     var flame = new Image();
 
+    var dead = false;
     var gameLoopCounter = 0;
     var frameRate = 30; // frames per second
     var cycleTime = (1000 / frameRate);
     var landerRadius = 32; // half of image height (more or less)
-    var reboundRate = .8 // defines bounce decay; 1 is perfect rebound; .8 is "natural"
+    var reboundRate = .5 // defines bounce decay; 1 is perfect rebound; .8 is "natural"
     var momentumY = 2; // starting vertical velocity
     var momentumX = 5; // starting horizontal velocity
     var posX  = 0; // starting horizontal position 
@@ -63,10 +64,10 @@
         // }; 
 
         if ( event.which == 188) { // < 
-          changePitch = -1.5;
+          changePitch = -1;
         };  
         if ( event.which == 190) { // >
-          changePitch = 1.5;
+          changePitch = 1;
         };
 
       });
@@ -80,15 +81,15 @@
         if ( event.which == 50) { // 2
           thrust = thrustOff();
         };
-        if ( event.which == 51) { // 3
+        // if ( event.which == 51) { // 3
               
-        };
-        if ( event.which == 52) { // 4
+        // };
+        // if ( event.which == 52) { // 4
  
-        };
-        if ( event.which == 53) { // 5 
+        // };
+        // if ( event.which == 53) { // 5 
   
-        };
+        // };
 
         if ( event.which == 190 || event.which == 188) { // > or <
           changePitch = 0;
@@ -102,22 +103,29 @@
 
     function loop(){
 
+
+
       setInterval(function(){
 
-        gameLoopCounter += 1; 
-        // caluculateThrust();
-        thrustX = updateThrustX(); 
-        thrustY = updateThrustY();
-        pitch += changePitch;
-        momentumX = (momentumX + gravityX + thrustX) * drag;
-        momentumY = (momentumY + gravityY + thrustY) * drag; 
-        posX += momentumX;
-        posY += momentumY;
-        pitch += changePitch;
-        staticFriction(0.1);
-        // console.log("positions updated to " + posX + " " + posY);
-        collisionCheck();
-        draw();
+        if (dead == false) {
+
+          gameLoopCounter += 1; 
+          // caluculateThrust();
+          thrustX = updateThrustX(); 
+          thrustY = updateThrustY();
+          pitch += changePitch;
+          momentumX = (momentumX + gravityX + thrustX) * drag;
+          momentumY = (momentumY + gravityY + thrustY) * drag; 
+          posX += momentumX;
+          posY += momentumY;
+          pitch += changePitch;
+          staticFriction(0.1);
+          // console.log("positions updated to " + posX + " " + posY);
+          collisionCheck();
+          consumeFuel(thrust);
+          draw();
+
+        };
       },cycleTime);
     };
 
@@ -205,6 +213,7 @@
       if (posY > (canvasEdgeY - landerRadius)) { // lower edge
         // console.log("hit the bottom Y edge!");
         collisionCounter += 1;
+        damageCheck(momentumX, momentumY);
 
         posY = (canvasEdgeY - landerRadius);
         momentumY = (momentumY * reboundRate * -1)
@@ -236,6 +245,29 @@
       };
     };
 
+
+    function damageCheck(_x,_y){
+      
+      
+      if (_x > .3) {
+        console.log("boom X");
+        $("canvas").css("background-image", "url(boom.jpg)");
+        lander = 0;
+        dead = true;
+     
+      };
+
+      if (_y > 3) {
+        console.log("boom Y")
+        $("canvas").css("background-image", "url(boom.jpg)");
+        lander = 0;
+        dead = true;
+      };
+
+    };
+
+    // function consumeFuel
+
     function to_i(_value) 
    // uses Bitwise operator to convert value to int - allegedly faster than Math methods
     {
@@ -262,9 +294,7 @@
     console.log("Math.sin(to_rad(90)) = 1 " + (Math.sin(to_rad(90)) == 1));
     console.log("Math.sin(to_rad(270)) = -1 " + (Math.sin(to_rad(270)) == -1));  
     console.log("Degrees to radians = " + (to_rad(180) == Math.PI));
-      // commit 12/16 17:23
     console.log("thrustOff() = " + (thrustOff() == 0) );
-
 
   </script>
 
