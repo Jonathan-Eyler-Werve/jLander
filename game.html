@@ -15,7 +15,7 @@
     var gameLoopCounter = 0;
     var frameRate = 30; // frames per second
     var cycleTime = (1000 / frameRate);
-    var landerRadius = 32; // half of image height (more or less)
+    var landerRadius = 20; // half of image height (more or less)
     var reboundRate = .5 // defines bounce decay; 1 is perfect rebound; .8 is "natural"
     var momentumY = 2; // starting vertical velocity
     var momentumX = 5; // starting horizontal velocity
@@ -115,7 +115,7 @@
             changePitch = -.3;
           };
 
-          updateStats();
+
           pitch += changePitch;
           momentumX = (momentumX + gravityX + thrustX) * drag;
           momentumY = (momentumY + gravityY + thrustY) * drag; 
@@ -127,6 +127,7 @@
           collisionCheck();
           consumeFuel(thrust);
           draw();
+          updateStats();
         };
       },cycleTime);
     };
@@ -136,19 +137,20 @@
       
       var canvas = document.getElementById("canvas");
       if (canvas.getContext) {
-
         var ctx = canvas.getContext("2d");
         ctx.clearRect (0, 0, canvasEdgeX, canvasEdgeY)
         ctx.fillStyle = "rgba(0, 255, 0, 1)";
         drawPosX = to_i(posX);
         drawPosY = to_i(posY);
+        // lander positioning
         ctx.save();
         ctx.translate(drawPosX, drawPosY);
         ctx.rotate(to_rad(pitch));
         drawLander(ctx);
         drawFlame(ctx, thrust);
-        drawData(ctx);
         ctx.restore();
+        // flight data and gauges
+        // drawAltimeter(ctx, altitude);
       }
       else {
         window.alert("You're too good looking to use a browser this old.");
@@ -156,21 +158,22 @@
     }
 
     function updateStats(){
+
       if (fuel > 0 && dead == false){
-        $("#stats").text("Fuel: " + fuel);
+        $(".fuel").text("Fuel: " + fuel);
+        $(".altitude").text("Altitude: " + altitude());
       }
       else if (fuel < 0 && dead == false){
         $("#stats").text("Fuel: Boldly into the night we go.");
       }
       else if (dead == true) {
         $("#stats").text("YOU ARE DEAD.");
-      }
-
+      };
     };
 
 
     function drawLander(ctx){
-      ctx.drawImage(lander,-32,-32);
+      ctx.drawImage(lander,-10,-10);
     };
 
     function drawFlame(ctx, _thrust){
@@ -185,7 +188,7 @@
       if ( _thrust > 0 ) {
         // build up thrust over 30 loops
         
-        ctx.drawImage(flame,-32,32);
+        ctx.drawImage(flame,-10,10);
 
       };
     };
@@ -196,7 +199,7 @@
 
     function updateThrustX() {
       return (thrust * Math.sin(to_rad(pitch)));
-    } 
+    }; 
 
     function updateThrustY() {
       return (-1 * thrust * Math.cos(to_rad(pitch)));
@@ -204,7 +207,7 @@
 
     function thrustOff(){ 
       return 0;
-    }
+    };
 
     function staticFriction(frictionDetect){
       if (collisionCounter < 3){}
@@ -283,6 +286,11 @@
       };
     };
       
+    function altitude() {
+      return to_i(canvasEdgeY - posY - landerRadius)
+    };
+
+
     function to_i(_value) 
    // uses Bitwise operator to convert value to int - allegedly faster than Math methods
     {
@@ -330,14 +338,16 @@
         color: #00FF00;
         font-size: 20px;
         font-family: helvetica;
-
       }
     </style>
  
   </head>
  
   <body onload="loop();">
-    <div id="stats">Fuel: 000000</div>
+    <div id="stats">
+      <div class="stats fuel">Fuel: 000000</div>
+      <div class="stats altitude">Altitude: 000000</div>
+    </div>  
     <canvas id="canvas" width="1586" height="784"></canvas>
     Use 1, 2 to thrust. Use < > to rotate. 
   </body>
