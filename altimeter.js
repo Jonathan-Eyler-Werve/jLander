@@ -23,13 +23,14 @@ function drawAltimeter(ctx, number){
 
  console.log("drawAltimeter called")
 	ctx.save();
-  // ctx.translate(10, 50);
+  ctx.translate(50,50);
 
 	drawBase(ctx, number);
-	// drawThousands(ctx, number);
+
+	drawThousands(ctx, altitude());
 	// drawHundreds(ctx, number);
 	// drawTens(ctx, number);
-	// drawText(ctx, number);
+	drawText(ctx, number);
 
   ctx.restore();
 
@@ -37,7 +38,23 @@ function drawAltimeter(ctx, number){
 
 function drawBase(_ctx, number){
 	_ctx.drawImage(altimeterBase,0,0);
+
 };
+
+
+function drawThousands(_ctx, number) {
+	_ctx.save();
+	_ctx.translate(95,90);
+	_ctx.rotate(to_rad(pitch));
+	_ctx.drawImage(altimeterThousandsBase,-95,-90)
+	_ctx.restore();
+};
+
+
+function drawText(_ctx, number){
+	_ctx.drawImage(altimeterText,0,0);
+};
+
 
 altimeterInit()
 
