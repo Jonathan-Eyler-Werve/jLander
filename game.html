@@ -6,6 +6,7 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript"></script>
   <script src="altimeter.js" type="text/javascript"></script>
+  <script src="fuel.js" type="text/javascript"></script>
 
   <script type="application/javascript">
     var lander = new Image();
@@ -33,7 +34,8 @@
     var canvasEdgeX = 1586; // sync this with HTML below
     var canvasEdgeY = 784; // sync this with HTML below
     var collisionCounter = 0; //counts multiple collisions for static friction, always init to zero 
-    var fuel = 500; 
+    var fuel = 500;
+    var maxFuel = 500; 
 
 
 
@@ -180,6 +182,8 @@
     };
 
 
+
+
     function drawLander(ctx){
       ctx.drawImage(lander,-10,-10);
     };
@@ -288,11 +292,6 @@
       };
     };
 
-    function consumeFuel (_thrust) {
-      if (_thrust > 0) {
-        fuel += -1; 
-      };
-    };
       
     function altitude() {
       return to_i((canvasEdgeY - posY - landerRadius) * 3)
