@@ -21,7 +21,7 @@ function altimeterInit(){
 
 function drawAltimeter(ctx, number){
 
- console.log("drawAltimeter called")
+ // console.log("drawAltimeter called")
 	ctx.save();
   ctx.translate((canvasEdgeX - 240),50);
 
