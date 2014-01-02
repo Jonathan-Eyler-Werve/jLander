@@ -48,7 +48,7 @@ function drawFuelLamps(_ctx, max, current){
 
 function drawFuelArrow (_ctx, max, current){
 	_ctx.save();
-	_ctx.translate(0,0);
+	_ctx.translate(0,(-150 * (current/max)));
 	_ctx.drawImage(fuelArrow,0,0);
 	_ctx.restore();
 };
@@ -57,10 +57,8 @@ function drawFuelOverlay(_ctx, max, current){
 	_ctx.drawImage(fuelOverlay,0,0);
 };
 
-
-
 function consumeFuel (_thrust) {
-  if (_thrust > 0) {
+  if ((_thrust > 0) && (fuel > 0)) {
     fuel += -1; 
   };
 };
