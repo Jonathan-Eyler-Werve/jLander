@@ -117,7 +117,7 @@
             thrustX = 0;
             thrustY = 0;
             flame.src = 0;
-            changePitch = -.3;
+
           };
 
 
@@ -342,17 +342,18 @@
         z-index: 100;
         color: #00FF00;
         font-size: 20px;
-        font-family: helvetica;
+        font-family: helvetica, arial, sans-serif;
       }
     </style>
  
   </head>
  
   <body onload="loop();">
-    <!-- <div id="stats">
+<!--     <div id="stats">
       <div class="stats fuel">Fuel: 000000</div>
       <div class="stats altitude">Altitude: 000000</div>
-    </div>   -->
+      <div class="stats decent">Decent rate: 000000</div>
+    </div>  --> 
     <canvas id="canvas" width="1586" height="784"></canvas>
     Use 1, 2 to thrust. Use < > to rotate. 
   </body>
